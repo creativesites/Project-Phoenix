@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Feedback {
+  id        String   @id @default(cuid())
+  userId    String
+  userEmail String
+  page      String
+  section   String?
+  content   String
+  status    String   @default("new") // new, reviewed, addressed
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("feedbacks")
+}
+
+model Download {
+  id        String   @id @default(cuid())
+  userId    String?
+  userEmail String?
+  type      String   // whitepaper, technical-plan
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@map("downloads")
+}
